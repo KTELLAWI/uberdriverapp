@@ -11,6 +11,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ride_app/global/global_var.dart';
 import 'package:ride_app/methods/map_theme_methods.dart';
 import 'package:ride_app/pushNotification/push_notification_system.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -94,6 +95,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   retriveCurrentDriverInfo() async {
+     await Permission.notification.isDenied.then((valuOfPermissione) => {
+        if (valuOfPermissione) {Permission.notification.request()}});
     await FirebaseDatabase.instance
         .ref()
         .child("drivers")
@@ -103,9 +106,9 @@ class _HomePageState extends State<HomePage> {
       driverName = (data.snapshot.value as Map)['name'];
       driverPhone = (data.snapshot.value as Map)['phone'];
       driverphoto = (data.snapshot.value as Map)['photo'];
-      carColor = (data.snapshot.value as Map)["car_details"]['carColor'];
-      carModel = (data.snapshot.value as Map)["car_details"]['carModel'];
-      carNumber = (data.snapshot.value as Map)["car_details"]['carNumber'];
+      carColor = (data.snapshot.value as Map)["car_details"]['car_color'];
+      carModel = (data.snapshot.value as Map)["car_details"]['car_model'];
+      carNumber = (data.snapshot.value as Map)["car_details"]['car_number'];
     });
 
     initilaizePushNotification();
