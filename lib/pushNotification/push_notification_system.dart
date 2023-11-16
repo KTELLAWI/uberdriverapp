@@ -35,6 +35,8 @@ class PushNotificationSystem {
     FirebaseMessaging.instance
         .getInitialMessage()
         .then((RemoteMessage? messageRemote) {
+           //print("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
+     
       if (messageRemote != null) {
         String tripID = messageRemote.data['tripID'];
         retrveTripRequestInfo(tripID, context);
@@ -45,14 +47,15 @@ class PushNotificationSystem {
 
     FirebaseMessaging.onMessage.listen((RemoteMessage? messageRemote) {
       if (messageRemote != null) {
-        String tripID = messageRemote.data['tripID'];
-        retrveTripRequestInfo(tripID, context);
+       String tripID = messageRemote.data['tripID'];
+       retrveTripRequestInfo(tripID, context);
       }
     });
 
     ///// running in Background
     ///
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage? messageRemote) {
+      
       if (messageRemote != null) {
         String tripID = messageRemote.data['tripID'];
         retrveTripRequestInfo(tripID, context);
@@ -72,23 +75,23 @@ class PushNotificationSystem {
         FirebaseDatabase.instance.ref().child('tripRequests').child(tripID);
     tripRequestRef.once().then((data) {
       Navigator.pop(context);
-      audioPlayer.open(Audio("assets/audio/"));
-      audioPlayer.play();
+     // audioPlayer.open(Audio("assets/audio/"));
+     // audioPlayer.play();
       TripDetails tripDetailsInfo = TripDetails();
       tripDetailsInfo.pickUpLatlng = LatLng(
           double.parse(
-              (data.snapshot.value! as Map)['pickUpLatLng']["latitude"]),
+              (data.snapshot.value! as Map)['pickuplatlng']["latitude"]),
           double.parse(
-              (data.snapshot.value! as Map)['pickUpLatLng']["longitude"]));
+              (data.snapshot.value! as Map)['pickuplatlng']["longitude"]));
       tripDetailsInfo.pickupAddress =
-          (data.snapshot.value! as Map)['pickUpAddress'];
+          (data.snapshot.value! as Map)['pickupAddress'];
       tripDetailsInfo.dropOffLatlng = LatLng(
           double.parse(
-              (data.snapshot.value! as Map)['dropOffLatLng']["latitude"]),
+              (data.snapshot.value! as Map)['dropoffLatLng']["latitude"]),
           double.parse(
               (data.snapshot.value! as Map)['dropOffLatLng']["longitude"]));
       tripDetailsInfo.dropOffAddress =
-          (data.snapshot.value! as Map)['dropOffAddress'];
+          (data.snapshot.value! as Map)['dropoffAddress'];
       tripDetailsInfo.userName = (data.snapshot.value! as Map)['userName'];
       tripDetailsInfo.userPhone = (data.snapshot.value! as Map)['userPhone'];
       tripDetailsInfo.tripID = tripID;

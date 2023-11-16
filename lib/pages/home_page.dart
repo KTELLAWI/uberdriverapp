@@ -95,8 +95,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   retriveCurrentDriverInfo() async {
-    //  await Permission.notification.isDenied.then((valuOfPermissione) => {
-    //     if (valuOfPermissione) {Permission.notification.request()}});
+     await Permission.notification.isDenied.then((valuOfPermissione) => {
+        if (valuOfPermissione) {Permission.notification.request()}});
     await FirebaseDatabase.instance
         .ref()
         .child("drivers")
