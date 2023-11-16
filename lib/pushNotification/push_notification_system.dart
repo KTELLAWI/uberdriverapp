@@ -31,36 +31,36 @@ class PushNotificationSystem {
 
   startlisteningForNewNotification(BuildContext context) async {
     //// listen to notofoation and app is terminated
-
-    FirebaseMessaging.instance
-        .getInitialMessage()
-        .then((RemoteMessage? messageRemote) {
-           //print("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
+ retrveTripRequestInfo("tripID", context);
+    // FirebaseMessaging.instance
+    //     .getInitialMessage()
+    //     .then((RemoteMessage? messageRemote) {
+    //        //print("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
      
-      if (messageRemote != null) {
-        String tripID = messageRemote.data['tripID'];
-        retrveTripRequestInfo(tripID, context);
-      }
-    });
+    //   if (messageRemote != null) {
+    //     String tripID = messageRemote.data['tripID'];
+    //     retrveTripRequestInfo(tripID, context);
+    //   }
+    // });
 
-    //// foreground
+    // //// foreground
 
-    FirebaseMessaging.onMessage.listen((RemoteMessage? messageRemote) {
-      if (messageRemote != null) {
-       String tripID = messageRemote.data['tripID'];
-       retrveTripRequestInfo(tripID, context);
-      }
-    });
+    // FirebaseMessaging.onMessage.listen((RemoteMessage? messageRemote) {
+    //   if (messageRemote != null) {
+    //    String tripID = messageRemote.data['tripID'];
+    //    retrveTripRequestInfo(tripID, context);
+    //   }
+    // });
 
-    ///// running in Background
-    ///
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage? messageRemote) {
+    // ///// running in Background
+    // ///
+    // FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage? messageRemote) {
       
-      if (messageRemote != null) {
-        String tripID = messageRemote.data['tripID'];
-        retrveTripRequestInfo(tripID, context);
-      }
-    });
+    //   if (messageRemote != null) {
+    //     String tripID = messageRemote.data['tripID'];
+    //     retrveTripRequestInfo(tripID, context);
+    //   }
+    // });
   }
 
   retrveTripRequestInfo(String tripID, BuildContext context) {
@@ -72,11 +72,12 @@ class PushNotificationSystem {
     );
 
     DatabaseReference tripRequestRef =
-        FirebaseDatabase.instance.ref().child('tripRequests').child(tripID);
+        FirebaseDatabase.instance.ref().child('tripRequests').child("-NjNOG60CUUdvqXhLhZY");
     tripRequestRef.once().then((data) {
       Navigator.pop(context);
      // audioPlayer.open(Audio("assets/audio/"));
      // audioPlayer.play();
+     print("dddddddddd");
       TripDetails tripDetailsInfo = TripDetails();
       tripDetailsInfo.pickUpLatlng = LatLng(
           double.parse(
@@ -94,7 +95,8 @@ class PushNotificationSystem {
           (data.snapshot.value! as Map)['dropoffAddress'];
       tripDetailsInfo.userName = (data.snapshot.value! as Map)['userName'];
       tripDetailsInfo.userPhone = (data.snapshot.value! as Map)['userPhone'];
-      tripDetailsInfo.tripID = tripID;
+      tripDetailsInfo.tripID = "-NjNOG60CUUdvqXhLhZY";//tripID;
+      print("cccccccccccccccccccc"+tripDetailsInfo.tripID.toString());
 
       showDialog(
         context: context,
